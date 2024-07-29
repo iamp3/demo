@@ -39,3 +39,7 @@ Once the deployment is complete, you can access the Airflow UI by:
 
 I used this option for deploying new DAGs: https://airflow.apache.org/docs/helm-chart/stable/manage-dags-files.html#mounting-dags-using-git-sync-sidecar-without-persistence
 To me, it's more of a gitops approach to focus on development and just push the code of new DAGs into the git repository, then it will be automatically updated on the airflow side. 
+
+Local logs run:
+![alt text](image.png)
+![alt text](image-1.png)
