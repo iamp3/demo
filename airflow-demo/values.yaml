@@ -631,7 +631,7 @@ workers:
     #   whenDeleted: Delete
     #   whenScaled: Delete
     # Volume size for worker StatefulSet
-    size: 100Gi
+    size: 20Gi
     # If using a custom storageClass, pass name ref to all statefulSets here
     storageClassName:
     # Execute init container to chown log directory.
@@ -2592,72 +2592,16 @@ dags:
     ## optional subpath for dag volume mount
     subPath: ~
   gitSync:
-    enabled: false
-
-    # git repo clone url
-    # ssh example: git@github.com:apache/airflow.git
-    # https example: https://github.com/apache/airflow.git
-    repo: https://github.com/apache/airflow.git
-    branch: v2-2-stable
+    enabled: true
+    repo: https://github.com/iamp3/demo.git
+    branch: main
+    subPath: "airflow-demo/airflow/dags"
     rev: HEAD
     # The git revision (branch, tag, or hash) to check out, v4 only
-    ref: v2-2-stable
+    ref: main
     depth: 1
     # the number of consecutive failures allowed before aborting
     maxFailures: 0
-    # subpath within the repo where dags are located
-    # should be "" if dags are at repo root
-    subPath: "tests/dags"
-    # if your repo needs a user name password
-    # you can load them to a k8s secret like the one below
-    #   ---
-    #   apiVersion: v1
-    #   kind: Secret
-    #   metadata:
-    #     name: git-credentials
-    #   data:
-    #     # For git-sync v3
-    #     GIT_SYNC_USERNAME: <base64_encoded_git_username>
-    #     GIT_SYNC_PASSWORD: <base64_encoded_git_password>
-    #     # For git-sync v4
-    #     GITSYNC_USERNAME: <base64_encoded_git_username>
-    #     GITSYNC_PASSWORD: <base64_encoded_git_password>
-    # and specify the name of the secret below
-    #
-    # credentialsSecret: git-credentials
-    #
-    #
-    # If you are using an ssh clone url, you can load
-    # the ssh private key to a k8s secret like the one below
-    #   ---
-    #   apiVersion: v1
-    #   kind: Secret
-    #   metadata:
-    #     name: airflow-ssh-secret
-    #   data:
-    #     # key needs to be gitSshKey
-    #     gitSshKey: <base64_encoded_data>
-    # and specify the name of the secret below
-    # sshKeySecret: airflow-ssh-secret
-    #
-    # Or set sshKeySecret with your key
-    # sshKey: |-
-    #   -----BEGIN {OPENSSH PRIVATE KEY}-----
-    #   ...
-    #   -----END {OPENSSH PRIVATE KEY}-----
-    #
-    # If you are using an ssh private key, you can additionally
-    # specify the content of your known_hosts file, example:
-    #
-    # knownHosts: |
-    #    <host1>,<ip1> <key1>
-    #    <host2>,<ip2> <key2>
-
-    # interval between git sync attempts in seconds
-    # high values are more likely to cause DAGs to become out of sync between different components
-    # low values cause more traffic to the remote git repository
-    # Go-style duration string (e.g. "100ms" or "0.1s" = 100ms).
-    # For backwards compatibility, wait will be used if it is specified.
     period: 5s
     wait: ~
     # add variables from secret into gitSync containers, such proxy-config
@@ -2712,9 +2656,9 @@ logs:
 
   persistence:
     # Enable persistent volume for storing logs
-    enabled: false
+    enabled: true
     # Volume size for logs
-    size: 100Gi
+    size: 10Gi
     # Annotations for the logs PVC
     annotations: {}
     # If using a custom storageClass, pass name here
